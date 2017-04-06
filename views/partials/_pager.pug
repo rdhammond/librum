@@ -1,17 +1,24 @@
 -
-	var hidden = pages > 1 ? '' : 'hidden';
-	var i = 2;
+	var prevDisabled = page < 1 ? 'disabled' : '';
+	var nextDisabled = page >= pages-1 ? 'disabled' : '';
+	var pagerStart = page;
+
+	if (pageCount <= 5 || pagerStart <= 2)
+		pagerStart = 0;
+	else if (pagerStart >= pageCount-3)
+		pagerStart = pageCount-5;
 
 nav.text-center(class=hidden aria-label="Page navigation")
 	ul.pagination
-		li.disabled
-			a(href="#" aria-label="Previous") &laquo;
-		li.active
-			a(href="#") 1
-				span.sr-only (current)
-		while i < pages
-			li
-				a(href="#")= i++
-		li
-			a(href="#" aria-label="Next")
+		li(class=prevDisabled)
+			a.prev(href="#" aria-label="Previous") &laquo;
+				span(aria-hidden="true")
+		while pagerStart < pagerStart+5
+			- var active = pagerStart===page ? 'active' : '';
+			li(class=active)
+				a(href="#") pagerStart++
+					if active
+						span.sr-only (current)
+		li(class=nextDisabled)
+			a.next(href="#" aria-label="Next")
 				span(aria-hidden="true") &raquo;

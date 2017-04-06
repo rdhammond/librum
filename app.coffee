@@ -2,9 +2,12 @@ express = require 'express'
 csp = require 'helmet-csp'
 morgan = require 'morgan'
 config = require './config'
+setupMongoose = require './lib/setup-mongoose'
 homeRouter = require './lib/home-router'
 booksRouter = require './lib/books-router'
 addBookRouter = require './lib/add-book-router'
+
+setupMongoose()
 
 app = express();
 app.set 'view engine', 'pug'

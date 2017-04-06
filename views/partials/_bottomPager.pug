@@ -1,4 +1,4 @@
 include _pager
-if page == (MAX_PAGES-1) && pages > 0
+if pages >= 1 && page === pages-1
 	h2.text-center.text-muted Didn't find what you're looking for?
 	p.text-center.text-muted Try narrowing your search to specific authors or years.

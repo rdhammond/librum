@@ -4,6 +4,9 @@ block scripts
 	script(src="js/books.min.js")
 
 block body
+	input#page(type="hidden" value=page)
+	input#pageSize(type="hidden" value=pageSize)
+
 	h1 Books
 	if books.length === 0
 		h2.text-center.text-muted No results found.
@@ -27,7 +30,7 @@ block body
 							)
 						td.title= book.title
 						td.author= book.author
-						td.year(data-publisher=book.publisher)= book.year
+						td.year(data-publisher=book.publisher)= book.year + ' ' + book.era
 						td.estValue= book.estValue
 		include partials/_bottomPager
 	include partials/_bookDetails
