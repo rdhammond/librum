@@ -1,0 +1,17 @@
+-
+	var hidden = pages > 1 ? '' : 'hidden';
+	var i = 2;
+
+nav.text-center(class=hidden aria-label="Page navigation")
+	ul.pagination
+		li.disabled
+			a(href="#" aria-label="Previous") &laquo;
+		li.active
+			a(href="#") 1
+				span.sr-only (current)
+		while i < pages
+			li
+				a(href="#")= i++
+		li
+			a(href="#" aria-label="Next")
+				span(aria-hidden="true") &raquo;

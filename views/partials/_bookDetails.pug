@@ -1,0 +1,30 @@
+#bookDetails.modal.fade(tabindex="-1" role="dialog")
+	.modal-dialog(role="document")
+		.modal-content
+			.modal-header
+				button.close(type="button"
+					data-dismiss="modal"
+					aria-label="Close"
+				)
+					span(aria-hidden="true") &times;
+				h4#title.modal-title Title
+			.modal-body
+				.container-fluid
+					.row
+						.col-sm-12.col-md-4.cover
+							img.img-responsive.img-thumbnail#cover
+						.col-sm-12.col-md-8.details
+							dl.dl-horizontal
+								dt Author
+								dd#author
+								dt Publisher
+								dd#publisher
+								dt Year of Publication
+								dd#year
+								dt Estimated Value
+								dd#estValue
+							.links
+								a#searchTitle(href="#" target="_blank") Search for more info on title
+								a#searchAuthor(href="#" target="_blank") Search for more info on author
+			.modal-footer
+				button.btn.btn-default(type="button" data-dismiss="modal") Close

@@ -1,0 +1,9 @@
+@import "main";
+
+.main {
+	.books tbody tr {
+		cursor: pointer;
+
+		td { vertical-align: middle; }
+	}
+}

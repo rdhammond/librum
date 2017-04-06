@@ -1,0 +1,38 @@
+extend layout
+
+block scripts
+	script(src="js/add-book.min.js")
+
+block body
+	- var alertClasses = alertType ? 'alert-' + alertType : 'hidden';
+
+	h1 Add book
+	#alert.alert(class=alertClasses role="alert")
+		strong.header= alertHeader
+		span.msg= alertMsg
+
+	form.container(action="add-book" method="POST")
+		.row
+			.col-md-3.photo
+				include partials/_coverUpload
+			.col-md-9.data
+				.form-group
+					label(for="title") Book Title
+					input#title.form-control(type="text" placeholder="Title (required)" required="true")
+				.form-group
+					label(for="author") Author
+					input#author.form-control(type="text" placeholder="Author (required)" required="true")
+				.form-group
+					label(for="year") Year
+					input#year.form-control(type="number" placeholder="Year" min-value="1")
+				.form-group
+					label(for="publisher") Publisher
+					input#publisher.form-control(type="text" placeholder="Publisher")
+				.form-group
+					label(for="estValue") Estimated Value
+					.input-group
+						span.input-group-addon $
+						input#estValue.form-control(type="number" placeholder="Value" min-value="0")
+		.row
+			.col-md-12.text-right
+				input.btn.btn-primary(type="submit" value="Add")

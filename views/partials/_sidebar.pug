@@ -1,0 +1,17 @@
+-
+	function checkActive(name) {
+		return name===active ? 'active' : '';
+	}
+
+	var booksActive = checkActive('books'),
+		addBookActive = checkActive('add-book')
+
+ul.nav.nav-sidebar
+	li(class=booksActive)
+		a(href="/books") Books
+			if booksActive
+				span.sr-only (current)
+	li(class=addBookActive)
+		a(href="/add-book") Add Book
+			if addBooksActive
+				span.sr-only (current)
