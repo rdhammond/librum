@@ -1,6 +1,16 @@
 module.exports = (grunt) ->
 
 	grunt.initConfig
+		watch:
+			sass:
+				files: ['sass/**/*.scss']
+				tasks: ['sass', 'cssmin']
+			javascript:
+				files: ['javascript/**/*.js']
+				tasks: ['uglify']
+			images:
+				files: ['images/**/*']
+				tasks: ['imagemin']
 		clean:
 			dist: [
 				'public/js'
@@ -49,4 +59,5 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-cssmin'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-contrib-imagemin'
+	grunt.loadNpmTasks 'grunt-contrib-watch'
 	grunt.registerTask 'default', ['clean', 'sass', 'cssmin', 'uglify', 'imagemin']

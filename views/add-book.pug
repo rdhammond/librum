@@ -24,7 +24,13 @@ block body
 					input#author.form-control(type="text" placeholder="Author (required)" required="true")
 				.form-group
 					label(for="year") Year
-					input#year.form-control(type="number" placeholder="Year" min-value="1")
+					.row
+						.col-md-10
+							input#year.form-control(type="number" placeholder="Year" min-value="1")
+						.col-md-2
+							select#era.form-control
+								option CE
+								option BCE
 				.form-group
 					label(for="publisher") Publisher
 					input#publisher.form-control(type="text" placeholder="Publisher")

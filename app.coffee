@@ -6,6 +6,7 @@ setupMongoose = require './lib/setup-mongoose'
 homeRouter = require './lib/home-router'
 booksRouter = require './lib/books-router'
 addBookRouter = require './lib/add-book-router'
+coversRouter = require './lib/covers-router'
 
 setupMongoose()
 
@@ -27,6 +28,7 @@ app.use express.static "#{__dirname}/public"
 app.use '/', homeRouter
 app.use '/books', booksRouter
 app.use '/add-book', addBookRouter
+app.use '/covers', coversRouter
 
 app.listen config.port, () ->
 	console.log "Listening on port #{config.port}"

@@ -8,16 +8,16 @@ toObjectId = (idStr) ->
 		[err, null]
 
 bookSchema = mongoose.Schema
-	smallCoverUrl:
+	cover:
+		type: Buffer
+	coverMimeType:
 		type: String
-		validate:
-			isAsync: false
-			validator: validator.isURL
-	coverUrl:
+		minLength: 1
+	smallCover:
+		type: Buffer
+	coverMimeType:
 		type: String
-		validate:
-			isAsync: false
-			validator: validator.isURL
+		minLength: 1
 	title:
 		type: String
 		required: yes
@@ -50,12 +50,13 @@ bookSchema.statics.getPage = (page, limit) ->
 	skip = 0 if skip < 0
 	limit = limit ? 0
 
-	query = Book.find().skip skip
+	query = book.find {}, '_id,title,author,year,era,publisher,estValue'
+	query = query.skip skip 
 	query = query.limit limit if limit > 0
 	query.exec()
 
 bookSchema.statics.add = (bookInfo) ->
-	delete _bookInfo._id
+	delete bookInfo._id
 	book = new Book bookInfo
 	book.save()
 
@@ -66,5 +67,13 @@ bookSchema.statics.delete = (id) ->
 	[err, id] = toObject id
 	return Promise.reject err if err?
 	this.findOneAndRemove {_id: id}
+
+bookSchema.statics.getCover = (id) ->
+	this.findOne {_id:id}, 'cover,coverMimeType'
+	.then (info) -> Promise.resolve info.cover, info.coverMimeType
+
+bookSchema.statics.getSmallCover = (id) ->
+	this.findOne {_id:id}, 'smallCover,smallCoverMimeType'
+	.then (info) -> Promise.resolve info.smallCover, info.smallCoverMimeType
 
 module.exports = Book = mongoose.model 'Book', bookSchema

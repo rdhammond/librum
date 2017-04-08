@@ -22,10 +22,12 @@ block body
 					th Est. Value
 			tbody
 				each book in books
-					tr
+					- var smallCoverUrl = 'covers/small/' + book._id;
+					- var coverUrl = 'covers/' + book._id;
+					tr(data-id=book._id)
 						td.cover
-							img(src=book.smallCoverUrl
-								data-cover-url=book.coverUrl
+							img(src=smallCoverUrl
+								data-cover-url=coverUrl
 								aria-hidden=true
 							)
 						td.title= book.title
