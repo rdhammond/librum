@@ -35,7 +35,7 @@
 		data.append('fileupload', fileupload.files[0]);
 
 		$.ajax({
-			url: '/add-book/preview-cover',
+			url: '/covers/preview',
 			type: 'POST',
 			data: data,
 			cache: false,

@@ -4,8 +4,8 @@ block scripts
 	script(src="js/books.min.js")
 
 block body
-	input#page(type="hidden" value=page)
-	input#pageSize(type="hidden" value=pageSize)
+	form#pageForm.hidden(action="books" method="POST")
+		input#page(name="page" type="hidden" value=page)
 
 	h1 Books
 	if books.length === 0
@@ -22,17 +22,21 @@ block body
 					th Est. Value
 			tbody
 				each book in books
-					- var smallCoverUrl = 'covers/small/' + book._id;
-					- var coverUrl = 'covers/' + book._id;
+					-
+						var thumbnailUrl = 'covers/thumbnail/' + book._id;
+						var coverUrl = 'covers/' + book._id;
+						var yearText = (book.year && book.era)
+							? book.year + ' ' + book.era
+							: '';
+
 					tr(data-id=book._id)
 						td.cover
-							img(src=smallCoverUrl
+							img(src=thumbnailUrl
 								data-cover-url=coverUrl
-								aria-hidden=true
-							)
+								aria-hidden=true)
 						td.title= book.title
 						td.author= book.author
-						td.year(data-publisher=book.publisher)= book.year + ' ' + book.era
+						td.year(data-publisher=book.publisher)= yearText
 						td.estValue= book.estValue
 		include partials/_bottomPager
-	include partials/_bookDetails
+		include partials/_bookDetails

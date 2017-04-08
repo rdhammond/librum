@@ -1,23 +1,44 @@
 (function($) {
 	'use strict';
 
+	function goPrevious() {
+		var page = $('.pagination .active .page').data('page');
+		goTo(page-1);
+		return false;
+	}
+
+	function goNext() {
+		var page = $('.pagination .active .page').data('page');
+		goTo(page+1);
+		return false;
+	}
+
+	function goPage() {
+		goTo($(this).data('page'));
+		return false;
+	}
+
+	function goTo(page) {
+		$('#page').val(page);
+		$('#pageForm').submit();
+	}
+
 	function showDetails() {
-		var details = getDetails.call(this);
+		var details = getDetails($this);
 		loadDetails(details);
 		$('#bookDetails').modal('show');
 	}
 
-	function getDetails() {
-		var $this = $(this);
-		var $year = $this.find('.year');
+	function getDetails($row) {
+		var $year = $row.find('.year');
 
 		return {
-			title: $this.find('.title').text(),
-			coverUrl: $this.find('.cover img').data('coverUrl'),
-			author: $this.find('.author').text(),
+			title: $row.find('.title').text(),
+			coverUrl: $row.find('.cover img').data('coverUrl'),
+			author: $row.find('.author').text(),
 			publisher: $year.data('publisher'),
 			year: $year.text(),
-			estValue: $this.find('.estValue').text(),
+			estValue: $row.find('.estValue').text(),
 		};
 	}
 
@@ -33,14 +54,17 @@
 		$('#publisher').text(details.publisher);
 		$('#year').text(details.year);
 		$('#estValue').text(details.estValue);
-		$('#searchTitle').attr('href', textSearch(details.title));
-		$('#searchAuthor').attr('href', textSearch(details.author));
+		$('#googleTitle').attr('href', textSearch(details.title));
+		$('#googleAuthor').attr('href', textSearch(details.author));
 	}
 
 	$(function() {
+		$('.prev').click(goPrevious);
+		$('.next').click(goNext);
+		$('.page').click(goPage);
 		$('#books tr').click(showDetails);
-		$('#searchTitle').click(searchTitle);
-		$('#searchAuthor').click(searchAuthor);
+		$('#googleTitle').click(searchTitle);
+		$('#googleAuthor').click(searchAuthor);
 	});
 
 })(jQuery);

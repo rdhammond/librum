@@ -1,5 +1,4 @@
 mongoose = require 'mongoose'
-validator = require 'validator'
 
 toObjectId = (idStr) ->
 	try
@@ -13,9 +12,9 @@ bookSchema = mongoose.Schema
 	coverMimeType:
 		type: String
 		minLength: 1
-	smallCover:
+	thumbnail:
 		type: Buffer
-	coverMimeType:
+	thumbnailMimeType:
 		type: String
 		minLength: 1
 	title:
@@ -61,7 +60,9 @@ bookSchema.statics.add = (bookInfo) ->
 	book.save()
 
 bookSchema.statics.update = (bookInfo) ->
-	this.findOneAndUpdate {_id: bookInfo.id}, {runValidators: yes, new: yes}, bookInfo
+	this.findOneAndUpdate {_id: bookInfo.id},
+		{runValidators: yes, new: yes},
+		bookInfo
 
 bookSchema.statics.delete = (id) ->
 	[err, id] = toObject id
@@ -69,11 +70,9 @@ bookSchema.statics.delete = (id) ->
 	this.findOneAndRemove {_id: id}
 
 bookSchema.statics.getCover = (id) ->
-	this.findOne {_id:id}, 'cover,coverMimeType'
-	.then (info) -> Promise.resolve info.cover, info.coverMimeType
+	this.findOne {_id: id}, 'cover,coverMimeType'
 
-bookSchema.statics.getSmallCover = (id) ->
-	this.findOne {_id:id}, 'smallCover,smallCoverMimeType'
-	.then (info) -> Promise.resolve info.smallCover, info.smallCoverMimeType
+bookSchema.statics.getThumbnail = (id) ->
+	this.findOne {_id: id}, 'thumbnail,thumbnailMimeType'
 
 module.exports = Book = mongoose.model 'Book', bookSchema

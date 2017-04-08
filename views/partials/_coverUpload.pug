@@ -1,7 +1,7 @@
 .photo-upload
 	.preview
-		img#cover.cover.center-block(src=coverUrl)
+		img#cover.cover.center-block(src="img/cover-placeholder.png")
 	.controls.text-center
-		input#fileupload.fileupload(type="file")
+		input#fileupload.fileupload(name="fileupload" type="file")
 		button#selectfile.selectfile.btn.btn-default(type="button") Change Cover
 		p.help-block Cover changes are not permanent until book is added.

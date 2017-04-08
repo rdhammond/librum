@@ -1,24 +1,19 @@
--
-	var prevDisabled = page < 1 ? 'disabled' : '';
-	var nextDisabled = page >= pages-1 ? 'disabled' : '';
-	var pagerStart = page;
+if endpage > startpage
+	- var prevActive = page>0 ? 'active' : '';
+	- var nextActive = page<(endpage-1) ? 'active' : '';
+	- var i = startpage;
 
-	if (pageCount <= 5 || pagerStart <= 2)
-		pagerStart = 0;
-	else if (pagerStart >= pageCount-3)
-		pagerStart = pageCount-5;
-
-nav.text-center(class=hidden aria-label="Page navigation")
-	ul.pagination
-		li(class=prevDisabled)
-			a.prev(href="#" aria-label="Previous") &laquo;
-				span(aria-hidden="true")
-		while pagerStart < pagerStart+5
-			- var active = pagerStart===page ? 'active' : '';
-			li(class=active)
-				a(href="#") pagerStart++
-					if active
-						span.sr-only (current)
-		li(class=nextDisabled)
-			a.next(href="#" aria-label="Next")
-				span(aria-hidden="true") &raquo;
+	nav.text-center(class=hidden aria-label="Page navigation")
+		ul.pagination
+			li(class=prevActive)
+				a.prev(href="#" aria-label="Previous") &laquo;
+					span(aria-hidden="true")
+			while i <= endpage
+				- var isActive = i===page ? 'active' : '';
+				li(class=isActive)
+					a.page(href="#" data-page=i) i++
+						if isActive
+							span.sr-only (current)
+			li(class=nextActive)
+				a.next(href="#" aria-label="Next")
+					span(aria-hidden="true") &raquo;

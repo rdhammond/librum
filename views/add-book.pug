@@ -4,10 +4,10 @@ block scripts
 	script(src="js/add-book.min.js")
 
 block body
-	- var alertClasses = alertType ? 'alert-' + alertType : 'hidden';
+	- var alertClass = alertType ? 'alert-' + alertType : 'hidden';
 
 	h1 Add book
-	#alert.alert(class=alertClasses role="alert")
+	#alert.alert(class=alertClass role="alert")
 		strong.header= alertHeader
 		span.msg= alertMsg
 
@@ -18,27 +18,41 @@ block body
 			.col-md-9.data
 				.form-group
 					label(for="title") Book Title
-					input#title.form-control(type="text" placeholder="Title (required)" required="true")
+					input#title.form-control(name="title"
+						type="text"
+						placeholder="Title (required)"
+						required="true")
 				.form-group
 					label(for="author") Author
-					input#author.form-control(type="text" placeholder="Author (required)" required="true")
+					input#author.form-control(name="author"
+						type="text"
+						placeholder="Author (required)"
+						required="true")
 				.form-group
 					label(for="year") Year
 					.row
 						.col-md-10
-							input#year.form-control(type="number" placeholder="Year" min-value="1")
+							input#year.form-control(name="year"
+								type="number"
+								placeholder="Year"
+								min-value="1")
 						.col-md-2
-							select#era.form-control
+							select#era.form-control(name="era")
 								option CE
 								option BCE
 				.form-group
 					label(for="publisher") Publisher
-					input#publisher.form-control(type="text" placeholder="Publisher")
+					input#publisher.form-control(name="publisher"
+						type="text"
+						placeholder="Publisher")
 				.form-group
 					label(for="estValue") Estimated Value
 					.input-group
 						span.input-group-addon $
-						input#estValue.form-control(type="number" placeholder="Value" min-value="0")
+						input#estValue.form-control(name="estValue"
+							type="number"
+							placeholder="Value"
+							min-value="0")
 		.row
 			.col-md-12.text-right
 				input.btn.btn-primary(type="submit" value="Add")

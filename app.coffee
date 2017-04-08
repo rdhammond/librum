@@ -3,10 +3,11 @@ csp = require 'helmet-csp'
 morgan = require 'morgan'
 config = require './config'
 setupMongoose = require './lib/setup-mongoose'
-homeRouter = require './lib/home-router'
-booksRouter = require './lib/books-router'
-addBookRouter = require './lib/add-book-router'
-coversRouter = require './lib/covers-router'
+
+homeRouter = require './lib/routers/home-router'
+booksRouter = require './lib/routers/books-router'
+addBookRouter = require './lib/routers/add-book-router'
+coversRouter = require './lib/routers/covers-router'
 
 setupMongoose()
 
@@ -15,11 +16,11 @@ app.set 'view engine', 'pug'
 app.set 'views', "#{__dirname}/views"
 app.use morgan 'tiny'
 
+# Maybe? "'unsafe-inline'",
 app.use csp
 	directives:
 		scriptSrc: [
 			"'self'",
-			"'unsafe-inline'",
 			'data: https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js '+
 				'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'
 		]
