@@ -3,17 +3,18 @@ expressValidator = require 'express-validator'
 coverJimp = require '../cover-jimp'
 multerSetup = require '../multer-setup'
 nPromise = require '../nPromise'
+Book = require '../models/Book'
 router = express.Router()
 
 multer = multerSetup().single 'fileupload'
 validator = expressValidator()
 
 validate = (req) ->
-	req.validateBody('title').notEmpty()
-	req.validateBody('author').notEmpty()
-	req.validateBody('year').isInt {min: 1}
-	req.validateBody('era').isIn ['CE', 'BCE']
-	req.validateBody('estValue').isFloat {min: 0}
+	req.checkBody('title').notEmpty()
+	req.checkBody('author').notEmpty()
+	req.checkBody('year').isInt {min: 1}
+	req.checkBody('era').isIn ['CE', 'BCE']
+	req.checkBody('estValue').isFloat {min: 0}
 	req.getValidationResult()
 
 sanitizeBody = (req) ->
@@ -22,7 +23,7 @@ sanitizeBody = (req) ->
 	year: req.sanitizeBody('year').toInt()
 	era: req.sanitizeBody('era').escape().trim()
 	publisher: req.sanitizeBody('publisher').escape().trim()
-	estValue = req.sanitizeBody('estValue').toFloat()
+	estValue: req.sanitizeBody('estValue').toFloat()
 
 router.get '/', (req, res) ->
 	res.render 'add-book', {active: 'add-book'}
@@ -48,6 +49,7 @@ router.post '/', (req, res) ->
 			alertHeader: 'Added!'
 			alertText: 'You can continue to add more books below.'
 	.catch (err) ->
+		console.log err
 		res.render 'add-book',
 			active: 'add-book'
 			alertType: 'danger'

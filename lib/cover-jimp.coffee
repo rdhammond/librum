@@ -12,10 +12,10 @@ getCoverBuffers = (buffer) ->
 	]
 	.then (imgs) ->
 		Promise.all [
-			toBuffer imgs[0]
-			Promise.resolve imgs[0].getMIME()
-			toBuffer imgs[1]
-			Promise.resolve imgs[1].getMIME()
+			nPromise imgs[0], imgs[0].getBuffer, jimp.AUTO
+			Promise.resolve imgs[0]._originalMime
+			nPromise imgs[1], imgs[1].getBuffer, jimp.AUTO
+			Promise.resolve imgs[1]._originalMime
 		]
 	.then (res) ->
 		Promise.resolve res[0], res[1], res[2], res[3]

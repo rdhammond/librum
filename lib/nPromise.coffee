@@ -7,5 +7,5 @@ module.exports = (obj, func, args...) ->
 	new Promise (resolve, reject) ->
 		args.push (err, res) ->
 			return reject err if err?
-			return resolve args
+			return resolve res
 		func.apply obj, args
