@@ -15,7 +15,7 @@ router.get '/', (req, res, next) ->
 			page: 0
 			startPage: 0
 			endPage: Math.min 4, total-1
-			books
+			books: books
 	.catch (err) ->
 		next err
 
@@ -36,10 +36,10 @@ router.post '/', urlencoded, (req, res, next) ->
 
 		res.render 'books',
 			active: 'books'
-			page
-			startPage
-			endPage
-			books
+			page: page
+			startPage: startPage
+			endPage: endPage
+			books: books
 	.catch (err) ->
 		next err
 

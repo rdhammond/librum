@@ -12,18 +12,18 @@ validator = expressValidator()
 validate = (req) ->
 	req.checkBody('title').notEmpty()
 	req.checkBody('author').notEmpty()
-	req.checkBody('year').isInt {min: 1}
-	req.checkBody('era').isIn ['CE', 'BCE']
-	req.checkBody('estValue').isFloat {min: 0}
+	req.checkBody('year').isInt {min: 1} if req.body.year
+	req.checkBody('era').isIn ['CE', 'BCE'] if req.body.era
+	req.checkBody('estValue').isFloat {min: 0} if req.body.estValue
 	req.getValidationResult()
 
 sanitizeBody = (req) ->
 	title: req.sanitizeBody('title').escape().trim()
 	author: req.sanitizeBody('author').escape().trim()
-	year: req.sanitizeBody('year').toInt()
-	era: req.sanitizeBody('era').escape().trim()
-	publisher: req.sanitizeBody('publisher').escape().trim()
-	estValue: req.sanitizeBody('estValue').toFloat()
+	year: req.sanitizeBody('year').toInt() if req.body.year
+	era: req.sanitizeBody('era').escape().trim() if req.body.era
+	publisher: req.sanitizeBody('publisher').escape().trim() if req.body.publisher
+	estValue: req.sanitizeBody('estValue').toFloat() if req.body.estValue
 
 router.get '/', (req, res) ->
 	res.render 'add-book', {active: 'add-book'}
@@ -33,7 +33,7 @@ router.post '/', (req, res) ->
 	.then () -> nPromise validator, req, res
 	.then () -> validate req
 	.then (results) ->
-		console.log results
+		console.log req.body
 		return Promise.reject new Error 'One or more values are invalid.' if not results.isEmpty()
 		coverJimp.getCoverBuffers req.file.buffer
 	.then (result) ->

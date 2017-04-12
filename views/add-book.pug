@@ -11,7 +11,7 @@ block body
 		strong.header= alertHeader
 		span.msg= alertMsg
 
-	form.container(action="add-book" method="POST")
+	form.container(action="add-book" method="POST" enctype="multipart/form-data")
 		.row
 			.col-md-3.photo
 				include partials/_coverUpload

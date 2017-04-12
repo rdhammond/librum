@@ -49,7 +49,7 @@ bookSchema.statics.getPage = (page, limit) ->
 	skip = 0 if skip < 0
 	limit = limit ? 0
 
-	query = book.find {}, '_id title author year era publisher estValue'
+	query = this.find {}, '_id title author year era publisher estValue'
 	query = query.skip skip 
 	query = query.limit limit if limit > 0
 	query.exec()
