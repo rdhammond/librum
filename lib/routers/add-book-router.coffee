@@ -33,14 +33,15 @@ router.post '/', (req, res) ->
 	.then () -> nPromise validator, req, res
 	.then () -> validate req
 	.then (results) ->
+		console.log results
 		return Promise.reject new Error 'One or more values are invalid.' if not results.isEmpty()
 		coverJimp.getCoverBuffers req.file.buffer
-	.then (cover, coverMime, thumb, thumbMime) ->
+	.then (result) ->
 		bookInfo = sanitizeBody req
-		bookInfo.cover = cover
-		bookInfo.coverMimeType = coverMime
-		bookInfo.thumbnail = thumb
-		bookInfo.thumbnailMimeType = thumbMime
+		bookInfo.cover = result.cover
+		bookInfo.coverMimeType = result.coverMime
+		bookInfo.thumbnail = result.thumb
+		bookInfo.thumbnailMimeType = result.thumbMime
 		Book.add bookInfo
 	.then () ->
 		res.render 'add-book',

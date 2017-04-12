@@ -18,7 +18,11 @@ getCoverBuffers = (buffer) ->
 			Promise.resolve imgs[1]._originalMime
 		]
 	.then (res) ->
-		Promise.resolve res[0], res[1], res[2], res[3]
+		Promise.resolve 
+			cover: res[0]
+			coverMime: res[1]
+			thumb: res[2]
+			thumbMime: res[3]
 
 echoBase64 = (buffer) ->
 	read buffer, 1

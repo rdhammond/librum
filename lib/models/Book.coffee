@@ -49,7 +49,7 @@ bookSchema.statics.getPage = (page, limit) ->
 	skip = 0 if skip < 0
 	limit = limit ? 0
 
-	query = book.find {}, '_id,title,author,year,era,publisher,estValue'
+	query = book.find {}, '_id title author year era publisher estValue'
 	query = query.skip skip 
 	query = query.limit limit if limit > 0
 	query.exec()
@@ -70,9 +70,9 @@ bookSchema.statics.delete = (id) ->
 	this.findOneAndRemove {_id: id}
 
 bookSchema.statics.getCover = (id) ->
-	this.findOne {_id: id}, 'cover,coverMimeType'
+	this.findOne {_id: id}, 'cover coverMimeType'
 
 bookSchema.statics.getThumbnail = (id) ->
-	this.findOne {_id: id}, 'thumbnail,thumbnailMimeType'
+	this.findOne {_id: id}, 'thumbnail thumbnailMimeType'
 
 module.exports = Book = mongoose.model 'Book', bookSchema

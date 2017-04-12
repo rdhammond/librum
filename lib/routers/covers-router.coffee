@@ -13,9 +13,10 @@ router.get '/:id', (req, res, next) ->
 
 	Book.getCover id
 	.then (info) ->
+		console.log info
 		res.writeHead 200,
-			'Content-Type': info.coverMimeTye
-			'Content-length': info.cover.length
+			'Content-Type': info.coverMimeType
+			'Content-Length': info.cover.length
 		res.end info.cover
 	.catch (err) ->
 		next err
@@ -27,7 +28,7 @@ router.get '/thumbnail/:id', (req, res, next) ->
 	.then (info) ->
 		res.writeHead 200,
 			'Content-Type': info.thumbnailMimeType
-			'Content-length': info.thumbnail.length
+			'Content-Length': info.thumbnail.length
 		res.end info.thumbnail
 	.catch (err) ->
 		next err
