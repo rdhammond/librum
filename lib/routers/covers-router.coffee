@@ -13,6 +13,7 @@ router.get '/:id', (req, res, next) ->
 
 	Book.getCover id
 	.then (info) ->
+		return res.redirect '/img/generic-book.jpg' if not info.cover?
 		res.writeHead 200,
 			'Content-Type': info.coverMimeType
 			'Content-Length': info.cover.length
@@ -25,6 +26,7 @@ router.get '/thumbnail/:id', (req, res, next) ->
 
 	Book.getThumbnail id
 	.then (info) ->
+		return res.redirect '/img/generic-book-small.jpg' if not info.thumbnail?
 		res.writeHead 200,
 			'Content-Type': info.thumbnailMimeType
 			'Content-Length': info.thumbnail.length

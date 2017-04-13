@@ -1,6 +1,6 @@
 COVER_WIDTH = 200
 COVER_HEIGHT = 300
-THUMBNAIL_SCALE = 0.5
+THUMBNAIL_SCALE = 0.25
 
 jimp = require 'jimp'
 nPromise = require './nPromise'

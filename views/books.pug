@@ -26,11 +26,14 @@ block body
 			tbody
 				each book in books
 					-
+						var year = '';
 						var thumbnailUrl = 'covers/thumbnail/' + book._id;
 						var coverUrl = 'covers/' + book._id;
-						var yearText = (book.year && book.era)
-							? book.year + ' ' + book.era
-							: '';
+
+						if (book.year) {
+							year = book.year;
+							if (book.era!=='CE') year += book.era
+						}
 
 					tr(data-id=book._id data-notes=book.notes)
 						td.cover
@@ -39,7 +42,7 @@ block body
 								aria-hidden=true)
 						td.title= book.title
 						td.author= book.author
-						td.year(data-publisher=book.publisher)= yearText
+						td.year(data-publisher=book.publisher)= year
 						td.estValue= book.estValue
 		include partials/_bottomPager
 		include partials/_bookDetails

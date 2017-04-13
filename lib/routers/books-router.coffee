@@ -1,4 +1,4 @@
-DEFAULT_PAGE_SIZE = 25
+DEFAULT_PAGE_SIZE = 20
 
 express = require 'express'
 bodyParser = require 'body-parser'
@@ -9,8 +9,13 @@ urlencoded = bodyParser.urlencoded {extended: no}
 json = bodyParser.json()
 
 router.get '/', (req, res, next) ->
-	Book.getPage 0, DEFAULT_PAGE_SIZE
-	.then (books, total) ->
+	total = null
+
+	Book.getPageCount DEFAULT_PAGE_SIZE
+	.then (_total) ->
+		total = _total
+		Book.getPage 0, DEFAULT_PAGE_SIZE
+	.then (books) ->
 		res.render 'books',
 			active: 'books'
 			page: 0
@@ -21,10 +26,14 @@ router.get '/', (req, res, next) ->
 		next err
 
 router.post '/', urlencoded, (req, res, next) ->
+	total = null
 	page = req.body.page ? 0
 	
-	Book.getPage page, DEFAULT_PAGE_SIZE
-	.then (books, total) ->
+	Book.getPageCount DEFAULT_PAGE_SIZE
+	.then (_total) ->
+		total = _total
+		Book.getPage page, DEFAULT_PAGE_SIZE
+	.then (books) ->
 		if page < 3
 			startPage = 0
 			endPage = Math.min 4, total-1
@@ -35,6 +44,7 @@ router.post '/', urlencoded, (req, res, next) ->
 			startPage = page-2
 			endPage = page+2
 
+		console.log "#{startPage} #{page} #{endPage}"
 		res.render 'books',
 			active: 'books'
 			page: page

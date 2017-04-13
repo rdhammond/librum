@@ -47,7 +47,7 @@ bookSchema.statics.getPageCount = (limit) ->
 
 bookSchema.statics.getPage = (page, limit) ->
 	page = page ? 0
-	skip = (page-1) * limit
+	skip = page * limit
 	skip = 0 if skip < 0
 	limit = limit ? 0
 

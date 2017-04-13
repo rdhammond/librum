@@ -1,19 +1,28 @@
-if endpage > startpage
-	- var prevActive = page>0 ? 'active' : '';
-	- var nextActive = page<(endpage-1) ? 'active' : '';
-	- var i = startpage;
+if endPage > startPage
+	-
+		var prevDisabled = page>0 ? '' : 'disabled',
+			nextDisabled = page<endPage ? '' : 'disabled';
+			i = startPage;
 
 	nav.text-center(class=hidden aria-label="Page navigation")
 		ul.pagination
-			li(class=prevActive)
-				a.prev(href="#" aria-label="Previous") &laquo;
-					span(aria-hidden="true")
-			while i <= endpage
-				- var isActive = i===page ? 'active' : '';
+			if prevDisabled === 'disabled'
+				li.disabled
+					span(aria-hidden="true") &laquo;
+			else
+				li(class=prevDisabled)
+					a.prev(href="#" aria-label="Previous")
+						span(aria-hidden="true") &laquo;
+			while i <= endPage
+				- var isActive = i==page ? 'active' : '';
 				li(class=isActive)
-					a.page(href="#" data-page=i) i++
+					a.page(href="#" data-page=i)= ++i
 						if isActive
 							span.sr-only (current)
-			li(class=nextActive)
-				a.next(href="#" aria-label="Next")
+			if nextDisabled === 'disabled'
+				li.disabled
 					span(aria-hidden="true") &raquo;
+			else
+				li
+					a.next(href="#" aria-label="Next")
+						span(aria-hidden="true") &raquo;
