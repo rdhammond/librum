@@ -44,7 +44,6 @@ router.post '/', urlencoded, (req, res, next) ->
 			startPage = page-2
 			endPage = page+2
 
-		console.log "#{startPage} #{page} #{endPage}"
 		res.render 'books',
 			active: 'books'
 			page: page
