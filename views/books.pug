@@ -8,6 +8,9 @@ block body
 		input#page(name="page" type="hidden" value=page)
 
 	h1 Books
+	#alert.alert.alert-danger.hidden(role="alert")
+		strong.header
+		span.msg
 	if books.length === 0
 		h2.text-center.text-muted No results found.
 	else
@@ -29,7 +32,7 @@ block body
 							? book.year + ' ' + book.era
 							: '';
 
-					tr(data-id=book._id)
+					tr(data-id=book._id data-notes=book.notes)
 						td.cover
 							img(src=thumbnailUrl
 								data-cover-url=coverUrl

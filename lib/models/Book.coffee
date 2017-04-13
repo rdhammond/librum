@@ -37,6 +37,8 @@ bookSchema = mongoose.Schema
 	estValue:
 		type: Number
 		min: 0
+	notes:
+		type: String
 
 bookSchema.statics.getPageCount = (limit) ->
 	this.find {}
@@ -49,7 +51,7 @@ bookSchema.statics.getPage = (page, limit) ->
 	skip = 0 if skip < 0
 	limit = limit ? 0
 
-	query = this.find {}, '_id title author year era publisher estValue'
+	query = this.find {}, '_id title author year era publisher estValue notes'
 	query = query.skip skip 
 	query = query.limit limit if limit > 0
 	query.exec()
@@ -74,5 +76,8 @@ bookSchema.statics.getCover = (id) ->
 
 bookSchema.statics.getThumbnail = (id) ->
 	this.findOne {_id: id}, 'thumbnail thumbnailMimeType'
+
+bookSchema.statics.setNotes = (id, notes) ->
+	this.findOneAndUpdate {_id: id}, {notes: notes}
 
 module.exports = Book = mongoose.model 'Book', bookSchema

@@ -6,6 +6,7 @@ Book = require '../models/Book'
 router = express.Router()
 
 urlencoded = bodyParser.urlencoded {extended: no}
+json = bodyParser.json()
 
 router.get '/', (req, res, next) ->
 	Book.getPage 0, DEFAULT_PAGE_SIZE
@@ -22,7 +23,7 @@ router.get '/', (req, res, next) ->
 router.post '/', urlencoded, (req, res, next) ->
 	page = req.body.page ? 0
 	
-	Books.getPage page, DEFAULT_PAGE_SIZE
+	Book.getPage page, DEFAULT_PAGE_SIZE
 	.then (books, total) ->
 		if page < 3
 			startPage = 0
@@ -42,5 +43,13 @@ router.post '/', urlencoded, (req, res, next) ->
 			books: books
 	.catch (err) ->
 		next err
+
+router.post '/notes/:id', json, (req, res) ->
+	Book.setNotes req.params.id, req.body.notes
+	.then () -> res.json {}
+	.catch (err) ->
+		res.json
+			header: 'Save failed.'
+			text: err.message
 
 module.exports = router

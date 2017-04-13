@@ -23,8 +23,11 @@
 								dd#year
 								dt Estimated Value
 								dd#estValue
+							.from-group
+								label(for="notes") Notes
+								textarea#notes.form-control(name="notes" placeholder="Notes (opt.)" rows="5")
 							.links
 								a#googleTitle(href="#" target="_blank") Search for more info on title
 								a#googleAuthor(href="#" target="_blank") Search for more info on author
 			.modal-footer
-				button.btn.btn-default(type="button" data-dismiss="modal") Close
+				button#save-and-close.btn.btn-default(type="button") Close

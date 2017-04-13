@@ -13,7 +13,6 @@ router.get '/:id', (req, res, next) ->
 
 	Book.getCover id
 	.then (info) ->
-		console.log info
 		res.writeHead 200,
 			'Content-Type': info.coverMimeType
 			'Content-Length': info.cover.length
