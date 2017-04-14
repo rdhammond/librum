@@ -1,4 +1,7 @@
 mongoose = require 'mongoose'
+types = require '../types'
+
+MAX_PAGES = 10
 
 toObjectId = (idStr) ->
 	try
@@ -40,44 +43,51 @@ bookSchema = mongoose.Schema
 	notes:
 		type: String
 
-bookSchema.statics.getPageCount = (limit) ->
-	this.find {}
-	.count()
-	.then (total) -> Math.ceil (total/limit)
+Object.assign bookSchema.statics,
+	search: (keywords, limit) ->
+		criteria = {}
 
-bookSchema.statics.getPage = (page, limit) ->
-	page = page ? 0
-	skip = page * limit
-	skip = 0 if skip < 0
-	limit = limit ? 0
+		if (types.getType keywords) isnt 'Array'
+			limit = keywords
+			keywords = []
+		
+		if keywords?.length > 0
+			tokens = keywords.map (x) -> "#{x}"
+			regex = new RegExp (tokens.join '|'), 'i'
+			criteria =
+				$or: [
+					{title: regex}
+					{author: regex}
+					{publisher: regex}
+				]
 
-	query = this.find {}, '_id title author year era publisher estValue notes'
-	query = query.skip skip 
-	query = query.limit limit if limit > 0
-	query.exec()
+		query = this.find(criteria).lean()
+		query = query.limit limit if limit? > 0
+		query.exec()
 
-bookSchema.statics.add = (bookInfo) ->
-	delete bookInfo._id
-	book = new Book bookInfo
-	book.save()
+	add: (bookInfo) ->
+		delete bookInfo._id
+		book = new Book bookInfo
+		book.save()
 
-bookSchema.statics.update = (bookInfo) ->
-	this.findOneAndUpdate {_id: bookInfo.id},
-		{runValidators: yes, new: yes},
-		bookInfo
+	update: (bookInfo) ->
+		this.findOneAndUpdate {_id: bookInfo.id},
+			{runValidators: yes, new: yes},
+			bookInfo
 
-bookSchema.statics.delete = (id) ->
-	[err, id] = toObject id
-	return Promise.reject err if err?
-	this.findOneAndRemove {_id: id}
+	delete: (id) ->
+		[err, id] = toObject id
+		return Promise.reject err if err?
+		this.findOneAndRemove {_id: id}
 
-bookSchema.statics.getCover = (id) ->
-	this.findOne {_id: id}, 'cover coverMimeType'
+	getCover: (id) ->
+		this.findOne {_id: id}, 'cover coverMimeType'
 
-bookSchema.statics.getThumbnail = (id) ->
-	this.findOne {_id: id}, 'thumbnail thumbnailMimeType'
+	getThumbnail: (id) ->
+		this.findOne {_id: id}, 'thumbnail thumbnailMimeType'
 
-bookSchema.statics.setNotes = (id, notes) ->
-	this.findOneAndUpdate {_id: id}, {notes: notes}
+	setNotes: (id, notes) ->
+		this.findOneAndUpdate {_id: id}, {notes: notes}
+		
 
 module.exports = Book = mongoose.model 'Book', bookSchema

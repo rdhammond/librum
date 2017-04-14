@@ -11,5 +11,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
 				span.icon-bar
 				span.icon-bar
 			a.navbar-brand(href="#") Librum
-		form.navbar-form.navbar-right
-			input.form-control(type="text" placeholder="Search...")
+		form.navbar-form.navbar-right.form-inline(method="POST" action="/books")
+			.form-group
+				label.sr-only(for="search") Search Keywords
+				input#search.form-control(name="search"
+					type="text"
+					placeholder="Keywords"
+					value=search)
+			button.btn.btn-default(type="submit") Filter
